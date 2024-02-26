@@ -5,7 +5,7 @@
     "name": "Brazilian Localization CNPJ Search",
     "summary": """
         Integração com os Webservices da ReceitaWS e SerPro""",
-    "version": "14.0.1.3.0",
+    "version": "14.0.1.4.1",
     "license": "AGPL-3",
     "author": "KMEE,Odoo Community Association (OCA)",
     "website": "https://github.com/OCA/l10n-brazil",
@@ -20,5 +20,9 @@
         "views/res_company_view.xml",
         "views/res_config_settings_view.xml",
     ],
-    "demo": [],
+    "external_dependencies": {
+        "python": [
+            "erpbrasil.base>=2.3.0",
+        ]
+    },
 }

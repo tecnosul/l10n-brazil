@@ -2,7 +2,8 @@
 #  Luis Felipe Miléo - mileo@kmee.com.br
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-import logging
+
+from erpbrasil.base import misc
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
@@ -14,13 +15,6 @@ from ..constants import (
     TIPO_MOVIMENTO,
     TIPO_SERVICO,
 )
-
-_logger = logging.getLogger(__name__)
-
-try:
-    from erpbrasil.base import misc
-except ImportError:
-    _logger.error("Biblioteca erpbrasil.base não instalada")
 
 
 class AccountPaymentLine(models.Model):
@@ -221,13 +215,13 @@ class AccountPaymentLine(models.Model):
         """
         Override to add brazilian validations
         """
-        res = super(AccountPaymentLine, self).draft2open_payment_line_check()
+        res = super().draft2open_payment_line_check()
         self._check_pix_transfer_type()
         return res
 
     @api.onchange("partner_id")
     def partner_id_change(self):
-        res = super(AccountPaymentLine, self).partner_id_change()
+        res = super().partner_id_change()
         partner_pix = False
         if self.partner_id.pix_key_ids:
             partner_pix = self.partner_id.pix_key_ids[0]

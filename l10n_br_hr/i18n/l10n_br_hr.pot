@@ -87,11 +87,6 @@ msgid "Activity Type Icon"
 msgstr ""
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__additional_info
-msgid "Additional info"
-msgstr ""
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__type
 msgid "Address Type"
 msgstr ""
@@ -177,16 +172,6 @@ msgid "Blacklist"
 msgstr ""
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__mobile_blacklisted
-msgid "Blacklisted Phone Is Mobile"
-msgstr ""
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__phone_blacklisted
-msgid "Blacklisted Phone is Phone"
-msgstr ""
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__blood_type
 msgid "Blood Type"
 msgstr ""
@@ -227,12 +212,6 @@ msgstr ""
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__cpf
 #: model_terms:ir.ui.view,arch_db:l10n_br_hr.view_l10n_br_hr_employee_dependent_form
 msgid "CPF"
-msgstr ""
-
-#. module: l10n_br_hr
-#: code:addons/l10n_br_hr/models/hr_employee.py:0
-#, python-format
-msgid "CPF Invalido!"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -394,11 +373,6 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__company_type
 msgid "Company Type"
-msgstr ""
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__partner_gid
-msgid "Company database ID"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -738,13 +712,6 @@ msgid "Female"
 msgstr ""
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__phone_sanitized
-msgid ""
-"Field used to store sanitized phone number. Helps speeding up searches and "
-"comparisons."
-msgstr ""
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__ind_final
 msgid "Final Consumption Operation"
 msgstr ""
@@ -926,7 +893,6 @@ msgstr ""
 
 #. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__message_has_error
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
 msgstr ""
 
@@ -942,13 +908,6 @@ msgstr ""
 msgid ""
 "If the email address is on the blacklist, the contact won't receive mass "
 "mailing anymore, from any list"
-msgstr ""
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__phone_sanitized_blacklisted
-msgid ""
-"If the sanitized phone number is on the blacklist, the contact won't receive"
-" mass mailing sms anymore, from any list"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -987,19 +946,12 @@ msgid "Indicates if Brazilian localization fields should be displayed."
 msgstr ""
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__mobile_blacklisted
+#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__is_public_entity
 msgid ""
-"Indicates if a blacklisted sanitized phone number is a mobile number. Helps "
-"distinguish which number is blacklisted             when there is both a "
-"mobile and phone field in a model."
-msgstr ""
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__phone_blacklisted
-msgid ""
-"Indicates if a blacklisted sanitized phone number is a phone number. Helps "
-"distinguish which number is blacklisted             when there is both a "
-"mobile and phone field in a model."
+"Indicates whether the entity in question is a public organization or "
+"government-related entity. It encompasses a range of entities such as "
+"municipal governments, state-owned enterprises (where the government is the "
+"largest shareholder), and other government-controlled organizations."
 msgstr ""
 
 #. module: l10n_br_hr
@@ -1380,6 +1332,11 @@ msgid "PIS/PASEP"
 msgstr ""
 
 #. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee__pis_pasep_date
+msgid "PIS/PASEP emission date"
+msgstr ""
+
+#. module: l10n_br_hr
 #: model:ir.model.fields,help:l10n_br_hr.field_hr_employee_dependent__partner_id
 msgid "Parceiro que contem as informações de banco do dependente."
 msgstr ""
@@ -1425,11 +1382,6 @@ msgid "Phone"
 msgstr ""
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__phone_sanitized_blacklisted
-msgid "Phone Blacklisted"
-msgstr ""
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__pix_key_ids
 msgid "Pix Keys"
 msgstr ""
@@ -1455,6 +1407,11 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__property_product_pricelist
 msgid "Pricelist"
+msgstr ""
+
+#. module: l10n_br_hr
+#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__is_public_entity
+msgid "Public Entity"
 msgstr ""
 
 #. module: l10n_br_hr
@@ -1542,11 +1499,6 @@ msgid "Restrict publishing to this website."
 msgstr ""
 
 #. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__message_has_sms_error
-msgid "SMS Delivery error"
-msgstr ""
-
-#. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__sale_contract_count
 msgid "Sale Contracts"
 msgstr ""
@@ -1579,11 +1531,6 @@ msgstr ""
 #. module: l10n_br_hr
 #: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__dep_sf
 msgid "Salário Família?"
-msgstr ""
-
-#. module: l10n_br_hr
-#: model:ir.model.fields,field_description:l10n_br_hr.field_hr_employee_dependent__phone_sanitized
-msgid "Sanitized Number"
 msgstr ""
 
 #. module: l10n_br_hr

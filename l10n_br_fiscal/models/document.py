@@ -48,7 +48,7 @@ class Document(models.Model):
 
     _name = "l10n_br_fiscal.document"
     _inherit = [
-        "l10n_br_fiscal.document.mixin",
+        "l10n_br_fiscal.document.mixin.fields",
         "l10n_br_fiscal.document.electronic",
         "l10n_br_fiscal.document.move.mixin",
     ]
@@ -186,6 +186,8 @@ class Document(models.Model):
         store=True,
     )
 
+    imported_document = fields.Boolean(string="Imported", default=False)
+
     xml_error_message = fields.Text(
         readonly=True,
         string="XML validation errors",
@@ -273,8 +275,10 @@ class Document(models.Model):
                 raise ValidationError(
                     _(
                         "There is already a fiscal document with this "
-                        "Serie: {}, Number: {} !"
-                    ).format(record.document_serie, record.document_number)
+                        "Serie: %(serie)s, Number: %(number)s!",
+                        serie=record.document_serie,
+                        number=record.document_number,
+                    )
                 )
 
     def _compute_document_name(self):
@@ -367,9 +371,11 @@ class Document(models.Model):
         for record in self.filtered(lambda d: d.state_edoc in forbidden_states_unlink):
             raise ValidationError(
                 _(
-                    "You cannot delete fiscal document number {} with "
-                    "the status: {}!"
-                ).format(record.document_number, record.state_edoc)
+                    "You cannot delete fiscal document number %(number)s with "
+                    "the status: %(state)!",
+                    number=record.document_number,
+                    state=record.state_edoc,
+                )
             )
 
         return super().unlink()

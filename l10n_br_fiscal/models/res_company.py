@@ -197,9 +197,7 @@ class ResCompany(models.Model):
 
     accountant_id = fields.Many2one(comodel_name="res.partner", string="Accountant")
 
-    accounting_office = fields.Many2one(
-        comodel_name="res.partner", string="Accounting Office"
-    )
+    accounting_office = fields.Many2one(comodel_name="res.partner")
 
     technical_support_id = fields.Many2one(
         comodel_name="res.partner", string="Technical Support"
@@ -352,7 +350,6 @@ class ResCompany(models.Model):
 
     @api.onchange("profit_calculation", "tax_framework")
     def _onchange_profit_calculation(self):
-
         # Get all Simples Nacional default taxes
         sn_piscofins_id = self.env.ref("l10n_br_fiscal.tax_pis_cofins_simples_nacional")
 

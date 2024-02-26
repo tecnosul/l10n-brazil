@@ -77,6 +77,11 @@ msgid "All Documents"
 msgstr "Todos os Documentos"
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__allow_csll_irpj
+msgid "Allow Csll Irpj"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__amount_total
 msgid "Amount Total"
 msgstr ""
@@ -313,6 +318,11 @@ msgid "Document Lines"
 msgstr "Linhas de documentos"
 
 #. module: l10n_br_account
+#: model:ir.actions.act_window,name:l10n_br_account.wizard_document_status_act_multi
+msgid "Document Status"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__document_type_id
 msgid "Document Type"
 msgstr "Tipo do Documento"
@@ -484,12 +494,6 @@ msgid "Fiscal Taxes"
 msgstr "Impostos Fiscais"
 
 #. module: l10n_br_account
-#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__fiscal_uom_id
-#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_line__fiscal_uom_id
-msgid "Fiscal UOM"
-msgstr ""
-
-#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_bank_statement_line__fiscal_user_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__fiscal_user_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_payment__fiscal_user_id
@@ -561,6 +565,15 @@ msgid "Indicates that this journal item is a tax line"
 msgstr "Indica que este item de diário é uma linha de imposto"
 
 #. module: l10n_br_account
+#: model:ir.model.fields,help:l10n_br_account.field_account_move_line__partner_is_public_entity
+msgid ""
+"Indicates whether the entity in question is a public organization or "
+"government-related entity. It encompasses a range of entities such as "
+"municipal governments, state-owned enterprises (where the government is the "
+"largest shareholder), and other government-controlled organizations."
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,help:l10n_br_account.field_account_bank_statement_line__incoterm_id
 #: model:ir.model.fields,help:l10n_br_account.field_account_move__incoterm_id
 #: model:ir.model.fields,help:l10n_br_account.field_account_payment__incoterm_id
@@ -581,8 +594,10 @@ msgstr "Assistente de Número Invalidado"
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_base_wizard_mixin__move_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_cancel_wizard__move_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_correction_wizard__move_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_import_wizard_mixin__move_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_document_status_wizard__move_id
 #: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_fiscal_invalidate_number_wizard__move_id
+#: model:ir.model.fields,field_description:l10n_br_account.field_l10n_br_nfe_import_xml__move_id
 msgid "Invoice"
 msgstr "Fatura"
 
@@ -647,12 +662,8 @@ msgid ""
 "Line without Return Fiscal Operation! \n"
 "\n"
 "                            Please force one! \n"
-"{}"
+"%(name)s"
 msgstr ""
-"Linha sem Operação Fiscal de Retorno! \n"
-"\n"
-"                            Por favor force uma! \n"
-"{}"
 
 #. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_cnae_main_id
@@ -789,6 +800,11 @@ msgid "Processador documentos eletrônicos"
 msgstr "Processador documentos eletrônicos"
 
 #. module: l10n_br_account
+#: model:ir.model.fields,field_description:l10n_br_account.field_account_move_line__partner_is_public_entity
+msgid "Public Entity"
+msgstr ""
+
+#. module: l10n_br_account
 #: model:ir.model.fields,field_description:l10n_br_account.field_account_move__partner_inscr_est
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.fiscal_invoice_search
 #: model_terms:ir.ui.view,arch_db:l10n_br_account.invoice_search
@@ -878,6 +894,18 @@ msgstr ""
 #, python-format
 msgid "You cannot set a document type when the move has no Fiscal Document!"
 msgstr ""
+
+#, python-format
+#~ msgid ""
+#~ "Line without Return Fiscal Operation! \n"
+#~ "\n"
+#~ "                            Please force one! \n"
+#~ "{}"
+#~ msgstr ""
+#~ "Linha sem Operação Fiscal de Retorno! \n"
+#~ "\n"
+#~ "                            Por favor force uma! \n"
+#~ "{}"
 
 #~ msgid "Currency"
 #~ msgstr "Moeda"

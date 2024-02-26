@@ -161,7 +161,7 @@ class Operation(models.Model):
         self.line_ids.write({"state": "draft"})
 
     def unlink(self):
-        operations = self.filtered(lambda l: l.state == "approved")
+        operations = self.filtered(lambda line: line.state == "approved")
         if operations:
             raise UserError(_("You cannot delete an Operation which is not draft !"))
         return super().unlink()
@@ -184,7 +184,6 @@ class Operation(models.Model):
         return serie
 
     def _line_domain(self, company, partner, product):
-
         domain = [
             ("fiscal_operation_id", "=", self.id),
             ("fiscal_operation_type", "=", self.fiscal_operation_type),

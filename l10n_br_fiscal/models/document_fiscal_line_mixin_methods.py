@@ -214,6 +214,18 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             ind_final=self.ind_final,
         )
 
+    @api.depends("tax_icms_or_issqn", "partner_is_public_entity")
+    def _compute_allow_csll_irpj(self):
+        """Calculates the possibility of 'CSLL' and 'IRPJ' tax charges."""
+        for line in self:
+            # Determine if 'CSLL' and 'IRPJ' taxes may apply:
+            # 1. When providing services (tax_icms_or_issqn == "issqn")
+            # 2. When supplying products to public entities (partner_is_public_entity is True)
+            if line.tax_icms_or_issqn == "issqn" or line.partner_is_public_entity:
+                line.allow_csll_irpj = True  # Tax charges may apply
+            else:
+                line.allow_csll_irpj = False  # No tax charges expected
+
     def _prepare_br_fiscal_dict(self, default=False):
         self.ensure_one()
         fields = self.env["l10n_br_fiscal.document.line.mixin"]._fields.keys()
@@ -238,6 +250,8 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
         return taxes
 
     def _remove_all_fiscal_tax_ids(self):
+        if self._is_imported():
+            return
         for line in self:
             line.fiscal_tax_ids = False
 
@@ -283,6 +297,9 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             )
             line.amount_tax_withholding = compute_result.get("amount_withholding", 0.0)
             line.estimate_tax = compute_result.get("estimate_tax", 0.0)
+            if self._is_imported():
+                continue
+
             for tax in line.fiscal_tax_ids:
                 computed_tax = computed_taxes.get(tax.tax_domain, {})
                 if hasattr(line, "%s_tax_id" % (tax.tax_domain,)):
@@ -350,6 +367,10 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
             )
 
             self.cfop_id = mapping_result["cfop"]
+
+            if self._is_imported():
+                return
+
             self.ipi_guideline_id = mapping_result["ipi_guideline"]
             self.icms_tax_benefit_id = mapping_result["icms_tax_benefit_id"]
             taxes = self.env["l10n_br_fiscal.tax"]
@@ -841,3 +862,9 @@ class FiscalDocumentLineMixinMethods(models.AbstractModel):
     @api.model
     def _rm_fields_to_amount(self):
         return ["icms_relief_value"]
+
+    def _is_imported(self):
+        # When the mixin is used for instance
+        # in a PO line or SO line, there is no document_id
+        # and we consider the document is not imported
+        return hasattr(self, "document_id") and self.document_id.imported_document

@@ -7,9 +7,9 @@ import logging
 import re
 import string
 from datetime import datetime
-from unicodedata import normalize
 
 from erpbrasil.assinatura import certificado as cert
+from erpbrasil.base.fiscal import cnpj_cpf
 from erpbrasil.base.fiscal.edoc import ChaveEdoc
 from erpbrasil.edoc.pdf import base
 from erpbrasil.transmissao import TransmissaoSOAP
@@ -47,6 +47,7 @@ from odoo.addons.l10n_br_fiscal.constants.fiscal import (
     SITUACAO_FISCAL_CANCELADO,
     SITUACAO_FISCAL_CANCELADO_EXTEMPORANEO,
 )
+from odoo.addons.l10n_br_fiscal.tools import remove_non_ascii_characters
 from odoo.addons.spec_driven_model.models import spec_models
 
 from ..constants.nfe import (
@@ -369,7 +370,6 @@ class NFe(spec_models.StackedModel):
     nfe40_emit = fields.Many2one(
         comodel_name="res.company",
         compute="_compute_emit_data",
-        readonly=True,
         string="Emit",
     )
 
@@ -427,7 +427,6 @@ class NFe(spec_models.StackedModel):
     nfe40_entrega = fields.Many2one(
         comodel_name="res.partner",
         compute="_compute_entrega_data",
-        readonly=True,
         string="Entrega",
     )
 
@@ -457,7 +456,6 @@ class NFe(spec_models.StackedModel):
     # NF-e tag: det
     ##########################
 
-    # TODO should be done by framework?
     nfe40_det = fields.One2many(
         comodel_name="l10n_br_fiscal.document.line",
         inverse_name="document_id",
@@ -534,6 +532,20 @@ class NFe(spec_models.StackedModel):
     # TODO
 
     ##########################
+    # NF-e tag: retTrib
+    ##########################
+
+    nfe40_vRetPIS = fields.Monetary(related="amount_pis_wh_value")
+
+    nfe40_vRetCOFINS = fields.Monetary(related="amount_cofins_wh_value")
+
+    nfe40_vRetCSLL = fields.Monetary(related="amount_csll_wh_value")
+
+    nfe40_vBCIRRF = fields.Monetary(related="amount_irpj_wh_base")
+
+    nfe40_vIRRF = fields.Monetary(related="amount_irpj_wh_value")
+
+    ##########################
     # NF-e tag: transp
     ##########################
 
@@ -569,20 +581,12 @@ class NFe(spec_models.StackedModel):
             record.nfe40_infCpl = False
             record.nfe40_infAdFisco = False
             if record.fiscal_additional_data:
-                record.nfe40_infAdFisco = (
-                    normalize("NFKD", record.fiscal_additional_data)
-                    .encode("ASCII", "ignore")
-                    .decode("ASCII")
-                    .replace("\n", "")
-                    .replace("\r", "")
+                record.nfe40_infAdFisco = remove_non_ascii_characters(
+                    record.fiscal_additional_data
                 )
             if record.customer_additional_data:
-                record.nfe40_infCpl = (
-                    normalize("NFKD", record.customer_additional_data)
-                    .encode("ASCII", "ignore")
-                    .decode("ASCII")
-                    .replace("\n", "")
-                    .replace("\r", "")
+                record.nfe40_infCpl = remove_non_ascii_characters(
+                    record.customer_additional_data
                 )
 
     ##########################
@@ -671,6 +675,15 @@ class NFe(spec_models.StackedModel):
             if class_obj._fields[field_name].comodel_name == "nfe.40.det":
                 field_data.nItem = i
         return res
+
+    @api.model
+    def _prepare_import_dict(
+        self, values, model=None, parent_dict=None, defaults_model=None
+    ):
+        return {
+            **super()._prepare_import_dict(values, model, parent_dict, defaults_model),
+            "imported_document": True,
+        }
 
     def _build_attr(self, node, fields, vals, path, attr):
         key = "nfe40_%s" % (attr[0],)  # TODO schema wise
@@ -878,7 +891,7 @@ class NFe(spec_models.StackedModel):
         else:
             state = SITUACAO_EDOC_REJEITADA
         if self.authorization_event_id and infProt.nProt:
-            if type(infProt.dhRecbto) == datetime:
+            if type(infProt.dhRecbto) is datetime:
                 protocol_date = fields.Datetime.to_string(infProt.dhRecbto)
             else:
                 protocol_date = fields.Datetime.to_string(
@@ -1054,6 +1067,22 @@ class NFe(spec_models.StackedModel):
                 "type": "binary",
             }
         )
+
+    def import_binding_nfe(self, binding, edoc_type="out"):
+        binding.NFe.infNFe.autXML = None  # don't import autXML
+        document = (
+            self.env["nfe.40.infnfe"]
+            .with_context(tracking_disable=True, edoc_type=edoc_type, dry_run=False)
+            .build_from_binding(binding.NFe.infNFe)
+        )
+
+        if edoc_type == "in" and document.company_id.cnpj_cpf != cnpj_cpf.formata(
+            binding.NFe.infNFe.emit.CNPJ
+        ):
+            document.fiscal_operation_type = "in"
+            document.issuer = "partner"
+
+        return document
 
     def temp_xml_autorizacao(self, xml_string):
         """TODO: Migrate-me to erpbrasil.edoc.pdf ASAP"""

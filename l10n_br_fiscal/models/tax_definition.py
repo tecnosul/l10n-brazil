@@ -259,7 +259,7 @@ class TaxDefinition(models.Model):
         self.write({"state": "draft"})
 
     def unlink(self):
-        operations = self.filtered(lambda l: l.state == "approved")
+        operations = self.filtered(lambda line: line.state == "approved")
         if operations:
             raise UserError(
                 _("You cannot delete an Tax Definition which is not draft !")
@@ -361,7 +361,6 @@ class TaxDefinition(models.Model):
         cest=None,
         city_taxation_code=None,
     ):
-
         if not ncm:
             ncm = product.ncm_id
 

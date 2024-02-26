@@ -95,7 +95,6 @@ class DataNcmNbsAbstract(models.AbstractModel):
                 result = self._get_ibpt(config, record.code_unmasked)
 
                 if result:
-
                     values = {
                         object_field: record.id,
                         "key": result.chave,
@@ -115,17 +114,20 @@ class DataNcmNbsAbstract(models.AbstractModel):
 
             except Exception as e:
                 _logger.warning(
-                    _("{0} Tax Estimate Failure: {1}").format(object_name, e)
+                    _(
+                        "%(name)s Tax Estimate Failure: %(error)s",
+                        name=object_name,
+                        error=e,
+                    )
                 )
                 record.message_post(
                     body=str(e),
-                    subject=_("{} Tax Estimate Failure").format(object_name),
+                    subject=_("%(name)s Tax Estimate Failure", name=object_name),
                 )
                 continue
 
     @api.model
     def _scheduled_update(self):
-
         object_name = OBJECT_NAMES.get(self._name)
 
         _logger.info(_("Scheduled {} estimate taxes update...").format(object_name))

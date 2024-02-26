@@ -161,7 +161,7 @@
                 <field name="nbs_id" optional="hide" />
                 <field name="nbm_id" optional="hide" />
                 <field name="cest_id" optional="hide" />
-                <field name="uom_id" optional="hide" />
+                <field name="product_uom_id" optional="hide" />
                 <field name="fiscal_genre_id" optional="hide" />
                 <field
                     name="fiscal_tax_ids"
@@ -288,7 +288,7 @@
                     name="fiscal_price"
                     attrs="{'invisible': [('document_type_id', '=', False)]}"
                 />
-
+                <field name="fiscal_document_line_id" />
                 <field name="amount_currency" invisible="1" />
                 <field name="date" invisible="1" />
                 <field name="date_maturity" invisible="1" />

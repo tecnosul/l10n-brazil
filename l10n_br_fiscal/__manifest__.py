@@ -10,7 +10,7 @@
     "maintainers": ["renatonlima"],
     "website": "https://github.com/OCA/l10n-brazil",
     "development_status": "Production/Stable",
-    "version": "14.0.19.3.0",
+    "version": "14.0.20.7.1",
     "depends": [
         "product",
         "l10n_br_base",
@@ -93,6 +93,7 @@
         "wizards/document_correction_wizard.xml",
         "wizards/document_status_wizard.xml",
         "wizards/invalidate_number_wizard.xml",
+        "wizards/document_import_wizard_mixin.xml",
         # Actions
         "views/l10n_br_fiscal_action.xml",
         # Menus
@@ -105,4 +106,9 @@
     "installable": True,
     "application": True,
     "auto_install": False,
+    "external_dependencies": {
+        "python": [
+            "erpbrasil.base>=2.3.0",
+        ]
+    },
 }

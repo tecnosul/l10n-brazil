@@ -1,24 +1,12 @@
 # Copyright (C) 2012  Renato Lima (Akretion)
 # License AGPL-3 - See http://www.gnu.org/licenses/agpl-3.0.html
 
-import logging
+
+from brazilcep import WebService, get_address_from_cep
+from erpbrasil.base import misc
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
-
-_logger = logging.getLogger(__name__)
-
-try:
-    from erpbrasil.base import misc
-except ImportError:
-    _logger.error("Library erpbrasil.base not installed!")
-
-_logger = logging.getLogger(__name__)
-
-try:
-    from brazilcep import WebService, get_address_from_cep
-except ImportError:
-    _logger.warning("Python Library brazilcep not installed !")
 
 
 class L10nBrZip(models.Model):
@@ -166,7 +154,6 @@ class L10nBrZip(models.Model):
 
     @api.model
     def zip_search(self, obj):
-
         try:
             domain = self._set_domain(
                 country_id=obj.country_id.id,
@@ -188,12 +175,10 @@ class L10nBrZip(models.Model):
 
         # More than one ZIP was found
         elif len(zips) > 1:
-
             return self.create_wizard(obj, zips)
 
         # Address not found in local DB, search by PyCEP-Correios
         elif not zips and obj.zip:
-
             cep_values = self._consultar_cep(obj.zip)
 
             if cep_values:
@@ -203,7 +188,6 @@ class L10nBrZip(models.Model):
                 return True
 
     def create_wizard(self, obj, zips):
-
         context = dict(self.env.context)
         context.update({"address_id": obj.id, "object_name": obj._name})
 

@@ -106,7 +106,7 @@ class Company(models.Model):
     state_tax_number_ids = fields.One2many(
         string="State Tax Numbers",
         comodel_name="state.tax.numbers",
-        inverse_name="partner_id",  # FIXME
+        inverse_name="company_id",
         compute="_compute_address",
         inverse="_inverse_state_tax_number_ids",
     )
@@ -144,8 +144,8 @@ class Company(models.Model):
 
     @api.onchange("state_id")
     def _onchange_state_id(self):
-        for record in self:
-            super()._onchange_state_id()
-            record.inscr_est = False
-            record.partner_id.inscr_est = False
-            record.partner_id.state_id = record.state_id
+        res = super()._onchange_state_id()
+        self.inscr_est = False
+        self.partner_id.inscr_est = False
+        self.partner_id.state_id = self.state_id
+        return res
